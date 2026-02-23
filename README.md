@@ -1,0 +1,1 @@
+Designed modular hybrid ecommerce scraper utilizing structured JSON-LD schema extraction and embedded WooCommerce product variation state parsing to extract product-variant level datasets without reliance on DOM selectors.
