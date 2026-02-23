@@ -1,9 +1,11 @@
 import json
 
 def parse_json_ld(soup):
+
     scripts = soup.find_all("script", type="application/ld+json")
 
     for script in scripts:
+
         try:
             data = json.loads(script.string)
 
@@ -21,6 +23,7 @@ def parse_json_ld(soup):
 
                 if data.get("@type") == "Product":
                     return normalize_product(data)
+
         except:
             continue
 
@@ -28,7 +31,13 @@ def parse_json_ld(soup):
 
 def normalize_product(item):
 
-    offer = item.get("offers", [{}])[0]
+    offers = item.get("offers", {})
+
+    # normalize list / dict
+    if isinstance(offers, list):
+        offer = offers[0]
+    else:
+        offer = offers
 
     return {
         "name": item.get("name"),

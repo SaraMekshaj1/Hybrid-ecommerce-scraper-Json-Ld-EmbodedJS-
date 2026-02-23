@@ -1,17 +1,16 @@
 import json
+import html
+
 def find_attr(attrs, keyword):
 
     if isinstance(attrs, dict):
-
         for k, v in attrs.items():
             if keyword in k:
                 return v
 
     if isinstance(attrs, list):
-
         for a in attrs:
-            name = a.get("name", "")
-            if keyword in name:
+            if keyword in a.get("name", ""):
                 return a.get("option")
 
     return None
@@ -27,12 +26,15 @@ def parse_variants(form):
 
     variants = []
 
-    data = form.get("data-product_variations")
+    raw = form.get("data-product_variations")
 
-    if not data:
+    if not raw:
         return []
 
-    variations = json.loads(data)
+    # 🚨 decode html entities
+    raw = html.unescape(raw)
+
+    variations = json.loads(raw)
 
     for v in variations:
 

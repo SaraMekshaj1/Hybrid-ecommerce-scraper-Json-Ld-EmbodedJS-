@@ -20,6 +20,7 @@ def export_csv(data, filename="products_variants.csv"):
     "color",
     "variant_image"
 ]
+
     with open(filename, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=keys)
         writer.writeheader()

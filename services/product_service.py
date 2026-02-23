@@ -3,6 +3,7 @@ from parsers.variation_parser import parse_variants
 from core.normalizer import combine_product_variants
 
 class ProductService:
+
     def __init__(self, fetcher, logger):
         self.fetcher = fetcher
         self.logger = logger
@@ -15,6 +16,11 @@ class ProductService:
             return []
 
         product = parse_json_ld(soup)
+
+        # 🚨 skip bad product pages
+        if not product:
+            self.logger.warning(f"No JSON-LD found: {url}")
+            return []
 
         form = soup.find("form", class_="variations_form")
 
